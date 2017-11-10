@@ -1,4 +1,18 @@
-body {
+/*body {
   background-color: skyblue;
   color: indigo;
+}*/
+#play-area {
+  height: 600px;
+  width: 600px;
+}
+.button {
+  background-color: indigo;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
 }

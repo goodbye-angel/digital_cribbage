@@ -3,6 +3,7 @@
 //window onload
 $(() => {
 
+//Game setup
   //Make deck
   const deckOfCards = [];
   const cardSuits = ["hearts", "diamonds", "clubs", "spades"];
@@ -30,7 +31,7 @@ $(() => {
     }
   }
 
-  createDeck();
+  // createDeck();
   // console.log(deckOfCards);
 
   //Shuffle deck
@@ -44,8 +45,87 @@ $(() => {
     }
   }
 
-  shuffleDeck();
+  // shuffleDeck();
   // console.log(newDeck);
+
+  //Deal cards
+  const playerHand1 = [];
+  const playerHand2 = [];
+  const crib = [];
+  const cut = [];
+
+  const dealCards = () => {
+    for (let i = 0; i < 6; i++) {
+      playerHand1.push(newDeck[i]);
+      newDeck.splice(i, 1);
+    }
+    for (let a = 0; a < 6; a++) {
+      playerHand2.push(newDeck[a]);
+      newDeck.splice(a, 1);
+    }
+  }
+
+  // dealCards();
+  // console.log(playerHand1);
+  // console.log(playerHand2);
+
+  //Cut deck
+  let cutCard = 0;
+
+  const cutDeck = () => {
+      let cut = Math.floor(Math.random() * newDeck.length);
+      cutCard = newDeck[cut];
+  }
+
+  // cutDeck();
+  // console.log(cutCard);
+
+//----------------------------------------------------------------
+
+//Play game
+  //Create play area
+  const $playArea = $('<div>').attr('id', 'play-area');
+  $('body').append($playArea);
+
+  //Create shuffle button
+  const $shuffleBtn = $('<button>').text('Shuffle cards').addClass('button');
+
+  //Create play button
+  const $playBtn = $('<button>').text('Play!').addClass('button');
+  $playArea.append($playBtn);
+
+  //Create deal button
+  const $dealBtn = $('<button>').text('Deal cards').addClass('button');
+
+  //Create cut button
+  const $cutBtn = $('<button>').text('Cut a card').addClass('button');
+
+  //Create deck and setup event listener for shuffle button
+  const startGame = () => {
+    createDeck();
+    $playArea.append($shuffleBtn);
+    $shuffleBtn.on('click', setup1);
+    $playBtn.remove();
+  }
+
+  //Shuffle deck and setup event listener for deal button
+  const setup1 = () => {
+    shuffleDeck();
+    $playArea.append($dealBtn);
+    $dealBtn.on('click', setup2)
+    $shuffleBtn.remove();
+  }
+
+  //Deal cards, show hands to players, throw cards to crib
+  const setup2 = () => {
+    dealCards();
+    $dealBtn.remove();
+    //black out screen, offer button to show player 1's hand and throw cards to the crib
+    //repeat for player 2
+  }
+
+  $playBtn.on('click', startGame);
+
 
 
 
