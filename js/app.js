@@ -51,8 +51,6 @@ $(() => {
   //Deal cards
   const playerHand1 = [];
   const playerHand2 = [];
-  const crib = [];
-  const cut = [];
 
   const dealCards = () => {
     for (let i = 0; i < 6; i++) {
@@ -80,9 +78,19 @@ $(() => {
   // cutDeck();
   // console.log(cutCard);
 
+  //Throw cards to crib
+  const crib = [];
+
+  const throwCards = (event) => {
+    for (let i = 1; i <= 2; i++)
+    crib.push(event.currentTarget);
+  }
+
+
 //----------------------------------------------------------------
 
 //Play game
+//Create elements
   //Create play area
   const $playArea = $('<div>').attr('id', 'play-area');
   $('body').append($playArea);
@@ -100,6 +108,26 @@ $(() => {
   //Create cut button
   const $cutBtn = $('<button>').text('Cut a card').addClass('button');
 
+  //Create UI for hands of cards
+  const $hand1 = $('<div>').text("Player One's Hand")
+    .attr('id','hand1');
+  const $hand2 = $('<div>').text("Player Two's Hand")
+    .attr('id','hand2');
+
+  const displayHand1 = () => {
+    for (let i = 0; i < playerHand1.length; i++) {
+      console.log(playerHand1[i].face + " of " + playerHand1[i].suit);
+    }
+  }
+
+  const displayHand2 = () => {
+    for (let i = 0; i < playerHand2.length; i++) {
+      console.log(playerHand2[i].face + " of " + playerHand2[i].suit);
+    }
+  }
+
+
+//Actions
   //Create deck and setup event listener for shuffle button
   const startGame = () => {
     createDeck();
@@ -120,11 +148,18 @@ $(() => {
   const setup2 = () => {
     dealCards();
     $dealBtn.remove();
+    $playArea.append($hand1, $hand2);
+    $hand1.append(displayHand1);
+    $hand2.append(displayHand2);
     //black out screen, offer button to show player 1's hand and throw cards to the crib
     //repeat for player 2
   }
 
+  //Show/hide players' hands
+
+
   $playBtn.on('click', startGame);
+
 
 
 
