@@ -1,33 +1,86 @@
-console.log("heyyyyy cat");
+// console.log("heyyyyy cat");
 
 //window onload
 $(() => {
 
-//Elements
-  //Deck of cards
-    //array of objects
-    //properties:
-      //face value
-      //suit
-      //numeric value
+  //Make deck
+  const deckOfCards = [];
+  const cardSuits = ["hearts", "diamonds", "clubs", "spades"];
+  const cardValues = [
+    {face: "ace", num: 1},
+    {face: "two", num: 2},
+    {face: "three", num: 3},
+    {face: "four", num: 4},
+    {face: "five", num: 5},
+    {face: "six", num: 6},
+    {face: "seven", num: 7},
+    {face: "eight", num: 8},
+    {face: "nine", num: 9},
+    {face: "ten", num: 10},
+    {face: "jack", num: 10},
+    {face: "queen", num: 10},
+    {face: "king", num: 10}
+  ];
+
+  const createDeck = () => {
+    for (let i = 0; i < cardSuits.length; i++) {
+      for (let a = 0; a < cardValues.length; a++) {
+        deckOfCards.push({face: cardValues[a].face, suit: cardSuits[i], value: cardValues[a].num});
+      }
+    }
+  }
+
+  createDeck();
+  // console.log(deckOfCards);
+
+  //Shuffle deck
+  const newDeck = [];
+
+  const shuffleDeck = () => {
+    for (let i = 0; i < 52; i++) {
+      let randomNum = Math.floor(Math.random() * deckOfCards.length);
+      newDeck.push(deckOfCards[randomNum]);
+      deckOfCards.splice(randomNum, 1);
+    }
+  }
+
+  shuffleDeck();
+  // console.log(newDeck);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //Player 1's hand
-    //push cards to an array
+    //push 6 cards to an array
   //Player 2's hand
-    //push cards to an array
+    //push 6 cards to an array
   //Crib
-    //push cards to an array
+    //each player chooses 2 cards to throw
+    //push 4 cards to an array
   //The cut
+    //1 card
     //store in a variable
-  //Deck
-    //visual only
-  //Board
-    //visual only
   //Player 1's score
     //each hand
     //entire game
   //Player 2's score
     //each hand
     //entire game
+
+//Visual elements
+  //Board
+  //Deck
+
 
 //Game flow
   //Setup phase - deal and other initial setup
