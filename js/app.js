@@ -8,19 +8,19 @@ $(() => {
   const deckOfCards = [];
   const cardSuits = ["hearts", "diamonds", "clubs", "spades"];
   const cardValues = [
-    {face: "ace", num: 1},
-    {face: "two", num: 2},
-    {face: "three", num: 3},
-    {face: "four", num: 4},
-    {face: "five", num: 5},
-    {face: "six", num: 6},
-    {face: "seven", num: 7},
-    {face: "eight", num: 8},
-    {face: "nine", num: 9},
-    {face: "ten", num: 10},
-    {face: "jack", num: 10},
-    {face: "queen", num: 10},
-    {face: "king", num: 10}
+    {face: "A", num: 1},
+    {face: "2", num: 2},
+    {face: "3", num: 3},
+    {face: "4", num: 4},
+    {face: "5", num: 5},
+    {face: "6", num: 6},
+    {face: "7", num: 7},
+    {face: "8", num: 8},
+    {face: "9", num: 9},
+    {face: "10", num: 10},
+    {face: "J", num: 10},
+    {face: "Q", num: 10},
+    {face: "K", num: 10}
   ];
 
   const createDeck = () => {
@@ -116,13 +116,15 @@ $(() => {
 
   const displayHand1 = () => {
     for (let i = 0; i < playerHand1.length; i++) {
-      console.log(playerHand1[i].face + " of " + playerHand1[i].suit);
+      let $card = $('<div>').text(playerHand1[i].face + " of " + playerHand1[i].suit);
+      $hand1.append($card);
     }
   }
 
   const displayHand2 = () => {
     for (let i = 0; i < playerHand2.length; i++) {
-      console.log(playerHand2[i].face + " of " + playerHand2[i].suit);
+      let $card = $('<div>').text(playerHand2[i].face + " of " + playerHand2[i].suit);
+      $hand2.append($card);
     }
   }
 
