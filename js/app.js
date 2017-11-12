@@ -78,12 +78,31 @@ $(() => {
   // cutDeck();
   // console.log(cutCard);
 
-  //Throw cards to crib
+
+  //Create play area
+  const $playArea = $('<div>').attr('id', 'play-area');
+  $('body').append($playArea);
+
+  $commonArea = $('<div>').attr('id', 'common');
+  $playArea.append($commonArea);
+
+  //Throw cards to crib - setup event handler
+  //BROKEN**********
   const crib = [];
 
   const throwCards = (event) => {
-    for (let i = 1; i <= 2; i++)
-    crib.push(event.currentTarget);
+    for (let i = 0; i < 1; i++) {
+      $cribCard = $(event.currentTarget);
+      crib.push($cribCard);
+      $commonArea.append($cribCard);
+      playerHand1.splice(event.currentTarget[i], 1);
+      }
+    for (let i = 0; i < 1; i++) {
+      $cribCard = $(event.currentTarget);
+      crib.push($cribCard);
+      $commonArea.append($cribCard);
+      playerHand2.splice(event.currentTarget[i], 1);
+    }
   }
 
 
@@ -91,10 +110,6 @@ $(() => {
 
 //Play game
 //Create elements
-  //Create play area
-  const $playArea = $('<div>').attr('id', 'play-area');
-  $('body').append($playArea);
-
   //Create shuffle button
   const $shuffleBtn = $('<button>').text('Shuffle cards').addClass('button');
 
@@ -114,20 +129,23 @@ $(() => {
   const $hand2 = $('<div>').text("Player Two's Hand")
     .attr('id','hand2');
 
-  const displayHand1 = () => {
-    for (let i = 0; i < playerHand1.length; i++) {
-      let $card = $('<div>').text(playerHand1[i].face + " of " + playerHand1[i].suit);
-      $hand1.append($card);
+    const displayHand1 = () => {
+      for (let i = 0; i < playerHand1.length; i++) {
+        let $card = $('<div>').addClass('card');
+        $card.append(playerHand1[i]);
+        $card.text(playerHand1[i].face + " of " + playerHand1[i].suit);
+        $hand1.append($card);
+      }
     }
-  }
 
-  const displayHand2 = () => {
-    for (let i = 0; i < playerHand2.length; i++) {
-      let $card = $('<div>').text(playerHand2[i].face + " of " + playerHand2[i].suit);
-      $hand2.append($card);
+    const displayHand2 = () => {
+      for (let i = 0; i < playerHand2.length; i++) {
+        let $card = $('<div>').addClass('card');
+        $card.append(playerHand2[i]);
+        $card.text(playerHand2[i].face + " of " + playerHand2[i].suit);
+        $hand2.append($card);
+      }
     }
-  }
-
 
 //Actions
   //Create deck and setup event listener for shuffle button
@@ -151,14 +169,11 @@ $(() => {
     dealCards();
     $dealBtn.remove();
     $playArea.append($hand1, $hand2);
-    $hand1.append(displayHand1);
-    $hand2.append(displayHand2);
-    //black out screen, offer button to show player 1's hand and throw cards to the crib
-    //repeat for player 2
+    displayHand1();
+    displayHand2();
+    $('.card').on('click', throwCards);
   }
-
   //Show/hide players' hands
-
 
   $playBtn.on('click', startGame);
 
