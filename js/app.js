@@ -30,7 +30,6 @@ $(() => {
       }
     }
   }
-
   // createDeck();
   // console.log(deckOfCards);
 
@@ -44,7 +43,6 @@ $(() => {
       deckOfCards.splice(randomNum, 1);
     }
   }
-
   // shuffleDeck();
   // console.log(newDeck);
 
@@ -62,48 +60,44 @@ $(() => {
       newDeck.splice(a, 1);
     }
   }
-
   // dealCards();
   // console.log(playerHand1);
   // console.log(playerHand2);
 
   //Cut deck
-  let cutCard = 0;
+  let $cutCard = $('<div>').addClass('card');
 
   const cutDeck = () => {
-      let cut = Math.floor(Math.random() * newDeck.length);
-      cutCard = newDeck[cut];
+    let cut = Math.floor(Math.random() * newDeck.length);
+    $cutCard = newDeck[cut];
+    $common3.append($cutCard).text($cutCard.face + " of " + $cutCard.suit);
   }
-
   // cutDeck();
   // console.log(cutCard);
-
 
   //Create play area
   const $playArea = $('<div>').attr('id', 'play-area');
   $('body').append($playArea);
 
-  $commonArea = $('<div>').attr('id', 'common');
+  const $hand1 = $('<div>').text("Player One's Hand")
+    .attr('id','hand1');
+    
+  const $hand2 = $('<div>').text("Player Two's Hand")
+    .attr('id','hand2');
+
+    $playArea.append($hand1, $hand2);
+
+  const $commonArea = $('<div>').attr('id', 'common');
   $playArea.append($commonArea);
 
-  //Throw cards to crib - setup event handler
-  //BROKEN**********
-  const crib = [];
+  const $common1 = $('<div>').attr('id', 'common1').text('Crib');
+  $commonArea.append($common1);
 
-  const throwCards = (event) => {
-    for (let i = 0; i < 1; i++) {
-      $cribCard = $(event.currentTarget);
-      crib.push($cribCard);
-      $commonArea.append($cribCard);
-      playerHand1.splice(event.currentTarget[i], 1);
-      }
-    for (let i = 0; i < 1; i++) {
-      $cribCard = $(event.currentTarget);
-      crib.push($cribCard);
-      $commonArea.append($cribCard);
-      playerHand2.splice(event.currentTarget[i], 1);
-    }
-  }
+  const $common2 = $('<div>').attr('id', 'common2');
+  $commonArea.append($common2);
+
+  const $common3 = $('<div>').attr('id', 'common3').text('Cut');
+  $commonArea.append($common3);
 
 
 //----------------------------------------------------------------
@@ -120,14 +114,13 @@ $(() => {
   //Create deal button
   const $dealBtn = $('<button>').text('Deal cards').addClass('button');
 
+  //Create throw button
+  const $throwBtn = $('<button>').text('Choose two cards from your hand to throw to the crib.').addClass('button');
+
   //Create cut button
-  const $cutBtn = $('<button>').text('Cut a card').addClass('button');
+  const $cutBtn = $('<button>').text('Cut a card from the deck.').addClass('button');
 
   //Create UI for hands of cards
-  const $hand1 = $('<div>').text("Player One's Hand")
-    .attr('id','hand1');
-  const $hand2 = $('<div>').text("Player Two's Hand")
-    .attr('id','hand2');
 
     const displayHand1 = () => {
       for (let i = 0; i < playerHand1.length; i++) {
@@ -156,6 +149,29 @@ $(() => {
     $playBtn.remove();
   }
 
+  //Setup event handler for throwing cards to crib
+  const crib = [];
+
+  let throwNum = 0;
+
+  const throwCards = (event) => {
+    if (throwNum < 4) {
+    //player 1
+      $cribCard = $(event.currentTarget);
+      crib.push($cribCard);
+      $common1.append($cribCard);
+      playerHand1.splice(event.currentTarget[throwNum], 1);
+    //player 2
+      $cribCard = $(event.currentTarget);
+      crib.push($cribCard);
+      $common1.append($cribCard);
+      playerHand2.splice(event.currentTarget[throwNum], 1);
+      throwNum++;
+    } else {
+      $playArea.append($cutBtn);
+    }
+  }
+
   //Shuffle deck and setup event listener for deal button
   const setup1 = () => {
     shuffleDeck();
@@ -168,19 +184,49 @@ $(() => {
   const setup2 = () => {
     dealCards();
     $dealBtn.remove();
-    $playArea.append($hand1, $hand2);
+
     displayHand1();
     displayHand2();
-    $('.card').on('click', throwCards);
+    $playArea.append($throwBtn);
+    $throwBtn.on('click', setup3);
   }
-  //Show/hide players' hands
 
+  //Cut deck
+  const setup3 = () => {
+    $('.card').on('click', throwCards);
+    $throwBtn.remove();
+    $cutBtn.on('click',setup4);
+  }
+
+  const setup4 = () => {
+    cutDeck();
+    $cutBtn.remove();
+  }
+
+
+//-------------------------------------------------------------
+  //Initialization
   $playBtn.on('click', startGame);
 
 
+//Scoring phase - counting the hand
+  // const scoreHand = () => {
+  //   let score = 0;
+  //   if ( == 15) {
+  //
+  //   }
+  // }
 
-
-
+    //non-dealer counts first
+    //dealer counts hand and crib
+    //cut card from the setup phase is included as part of players' hands and the crib
+    //players score if:
+      //any two cards in their hand have numeric values that add up to 15
+        //2 pts
+      //three or more cards in their hand are sequential numbers
+        //1 pt for each card
+      //two or more cards have the same face value
+        //2 pts for each pair
 
 
 
